@@ -17,8 +17,5 @@ jobs:
         GCR_PUSH_BOT_JSON_KEY: ${{ secrets.GCR_PUSH_BOT_JSON_KEY }}
       run: |
         echo "${GCR_PUSH_BOT_JSON_KEY}" | docker login --username _json_key --password-stdin gcr.io
-        whoami
-        ls -alR "${HOME}"
-        mkdir -p "${GITHUB_WORKSPACE}/tmp"
-        skopeo --tmpdir "${GITHUB_WORKSPACE}/tmp" copy "oci-archive:${GITHUB_WORKSPACE}/${{ steps.download.outputs.buildpackage }}" "docker://gcr.io/paketo-community/ruby:${{ steps.download.outputs.tag }}"
-        skopeo --tmpdir "${GITHUB_WORKSPACE}/tmp" copy "oci-archive:${GITHUB_WORKSPACE}/${{ steps.download.outputs.buildpackage }}" "docker://gcr.io/paketo-community/ruby:latest"
+        sudo skopeo copy "oci-archive:${GITHUB_WORKSPACE}/${{ steps.download.outputs.buildpackage }}" "docker://gcr.io/paketo-community/ruby:${{ steps.download.outputs.tag }}"
+        sudo skopeo copy "oci-archive:${GITHUB_WORKSPACE}/${{ steps.download.outputs.buildpackage }}" "docker://gcr.io/paketo-community/ruby:latest"
